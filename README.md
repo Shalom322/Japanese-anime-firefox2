@@ -4,6 +4,11 @@
 
 Реалізація: **`userChrome.css` + `userContent.css` + `user.js`**. Це не WebExtension і не тема з addons.mozilla.org.
 
+
+
+<img width="1917" height="1026" alt="screenshot" src="https://github.com/user-attachments/assets/88855ea7-8a29-4a3c-bea3-deb98b9aa781" />
+
+
 ## Чому саме так
 
 Звичайна тема Firefox (`manifest.json`) не вміє переносити вкладки ліворуч і малює картинку лише за верхньою панеллю. Незнайомі розширення для вертикальних вкладок додають другу панель, і тоді вкладки дублюються. Тому проєкт спирається на:
