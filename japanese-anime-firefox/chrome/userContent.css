@@ -1,0 +1,80 @@
+/* ==========================================================================
+   japanese-anime-firefox  |  userContent.css
+   Wallpaper and search box on the Firefox Home / New Tab page.
+   The image path is relative to this file (chrome/images/wallpaper.jpg).
+   The page is a separate layer from the browser UI, so the seam with the
+   top bar and sidebar is approximate (see README.md, "Known limits").
+   ========================================================================== */
+
+@-moz-document url("about:home"), url("about:newtab") {
+
+  /* Tune these two values if the image is shifted at the seam with the
+     sidebar / top bar. Positive numbers move the image right / down. */
+  :root {
+    --jp-seam-x: 0px;
+    --jp-seam-y: 0px;
+  }
+
+  /* The page area gets wider or narrower whenever the left panel opens or
+     closes. The picture lives on its own layer whose size depends only on
+     the window HEIGHT and which is pinned to the RIGHT edge. Neither changes
+     when the panel moves, so the picture is not re-sized or re-painted while
+     the panel animates; the panel just uncovers or hides its left part.
+     (If the window is wider than 16:9 the layer grows to the full width.) */
+  html {
+    background-color: #0b0a1a !important;
+    background-image: none !important;
+  }
+
+  body {
+    background: transparent !important;
+  }
+
+  body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: max(177.68vh, 100vw);
+    height: 100vh;
+    z-index: -1;
+    pointer-events: none;
+    background-image:
+      linear-gradient(180deg, rgba(11, 10, 26, 0.10), rgba(11, 10, 26, 0.30)),
+      url("images/wallpaper.jpg");
+    background-repeat: no-repeat;
+    background-size: 100% 100%, cover;
+    background-position: 0 0, center;
+    will-change: transform;
+    transform: translate(var(--jp-seam-x), var(--jp-seam-y));
+    /* no transitions here: the layer must never move or re-scale while the
+       page width changes, otherwise the picture "swims" */
+    transition: none !important;
+    contain: strict;
+  }
+
+  /* "Firefox" wordmark: light, so it is readable on the dark wallpaper */
+  :root {
+    --newtab-wordmark-color: #ece8ff !important;
+  }
+
+  .logo-and-wordmark .wordmark,
+  .wordmark {
+    filter: brightness(0) invert(0.93) !important;
+  }
+
+  /* Search box: dark translucent pill */
+  .search-wrapper .search-handoff-button,
+  .search-wrapper input {
+    background-color: rgba(14, 11, 32, 0.72) !important;
+    color: #ece8ff !important;
+    border: 1px solid rgba(255, 255, 255, 0.16) !important;
+    border-radius: 999px !important;
+    box-shadow: none !important;
+  }
+
+  .search-wrapper .search-handoff-button:hover,
+  .search-wrapper .search-handoff-button:focus-visible {
+    border-color: #ff8fb8 !important;
+  }
+}

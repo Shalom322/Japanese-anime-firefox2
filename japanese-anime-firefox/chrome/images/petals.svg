@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 380" width="240" height="380">
+<path d="M0 0 C5.4 -3.0 6.6 5.4 0 7.8 C-2.4 4.2 -1.8 1.2 0 0 Z" transform="translate(30 40) rotate(20)" fill="#ff8fb8" fill-opacity="0.55"/>
+<path d="M0 0 C4.5 -2.5 5.5 4.5 0 6.5 C-2.0 3.5 -1.5 1.0 0 0 Z" transform="translate(180 90) rotate(-30)" fill="#ff8fb8" fill-opacity="0.4"/>
+<path d="M0 0 C6.3 -3.5 7.7 6.3 0 9.1 C-2.8 4.9 -2.1 1.4 0 0 Z" transform="translate(90 170) rotate(60)" fill="#ff8fb8" fill-opacity="0.5"/>
+<path d="M0 0 C4.5 -2.5 5.5 4.5 0 6.5 C-2.0 3.5 -1.5 1.0 0 0 Z" transform="translate(210 250) rotate(10)" fill="#ff8fb8" fill-opacity="0.35"/>
+<path d="M0 0 C5.4 -3.0 6.6 5.4 0 7.8 C-2.4 4.2 -1.8 1.2 0 0 Z" transform="translate(40 300) rotate(-50)" fill="#ff8fb8" fill-opacity="0.45"/>
+<path d="M0 0 C4.5 -2.5 5.5 4.5 0 6.5 C-2.0 3.5 -1.5 1.0 0 0 Z" transform="translate(150 340) rotate(80)" fill="#ff8fb8" fill-opacity="0.4"/>
+<path d="M0 0 C3.6 -2.0 4.4 3.6 0 5.2 C-1.6 2.8 -1.2 0.8 0 0 Z" transform="translate(220 70) rotate(30)" fill="#ff8fb8" fill-opacity="0.3"/>
+<path d="M0 0 C3.6 -2.0 4.4 3.6 0 5.2 C-1.6 2.8 -1.2 0.8 0 0 Z" transform="translate(70 100) rotate(-10)" fill="#ff8fb8" fill-opacity="0.35"/>
+</svg>

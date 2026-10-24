@@ -1,0 +1,288 @@
+/* ==========================================================================
+   japanese-anime-firefox  |  userChrome.css
+   Minimal Dark Japanese Anime theme for Firefox with native vertical tabs.
+   Written for Firefox 158.0.1 on Windows 11. Requires user.js prefs
+   (see README.md). Image paths are relative to this file (chrome/images/).
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. Palette
+   -------------------------------------------------------------------------- */
+:root {
+  --jp-bg-deep: #0b0a1a;
+  --jp-bg-panel: rgba(16, 13, 36, 0.80);
+  --jp-bg-solid: #120f26;
+  --jp-bg-field: rgba(14, 11, 32, 0.90);
+  --jp-border: rgba(180, 150, 255, 0.18);
+  --jp-text: #ece8ff;
+  --jp-text-dim: #a79fc9;
+  --jp-sakura: #ff8fb8;
+  --jp-sakura-soft: rgba(255, 143, 184, 0.16);
+  --jp-sakura-strong: rgba(255, 143, 184, 0.26);
+  --jp-violet: #8b6cff;
+  --jp-radius: 10px;
+
+  /* Firefox's own variables, so menus, popups and icons follow the palette.
+     Best used on top of Firefox's built-in Dark theme. */
+  --toolbar-bgcolor: var(--jp-bg-solid) !important;
+  --toolbar-color: var(--jp-text) !important;
+  --toolbarbutton-icon-fill: var(--jp-text) !important;
+  --toolbarbutton-hover-background: var(--jp-sakura-soft) !important;
+  --toolbarbutton-active-background: var(--jp-sakura-strong) !important;
+  --toolbarbutton-hover-bordercolor: transparent !important;
+  --toolbarbutton-active-bordercolor: transparent !important;
+  --toolbarbutton-border-radius: 8px !important;
+  --toolbar-field-background-color: var(--jp-bg-field) !important;
+  --toolbar-field-color: var(--jp-text) !important;
+  --toolbar-field-focus-background-color: var(--jp-bg-field) !important;
+  --toolbar-field-focus-color: var(--jp-text) !important;
+  --arrowpanel-background: #15112b !important;
+  --arrowpanel-color: var(--jp-text) !important;
+  --arrowpanel-border-color: var(--jp-border) !important;
+  --tab-selected-bgcolor: var(--jp-sakura-strong) !important;
+  --tab-selected-textcolor: #ffffff !important;
+  --sidebar-text-color: var(--jp-text) !important;
+
+  /* Horizontal position of the sakura branches in the top bar. They are
+     placed in the free gaps next to the address bar so they never sit under
+     buttons. If a branch overlaps an icon on your screen, change these. */
+  --jp-branch-left-x: 190px;
+  --jp-branch-right-x: 400px;
+}
+
+/* --------------------------------------------------------------------------
+   2. Top bar: dark translucent layer over the wallpaper, sakura branches in
+      the free gaps on both sides of the address bar. Everything is a
+      background, so it can never cover text, the address or buttons.
+   -------------------------------------------------------------------------- */
+#navigator-toolbox {
+  border: none !important;
+  box-shadow: none !important;
+}
+
+#nav-bar {
+  background-color: var(--jp-bg-deep) !important;
+  background-image:
+    url("images/sakura-left.svg"),
+    url("images/sakura-right.svg"),
+    linear-gradient(180deg, rgba(24, 18, 52, 0.60), rgba(11, 10, 26, 0.88)),
+    url("images/wallpaper.jpg") !important;
+  background-repeat: no-repeat !important;
+  background-position: var(--jp-branch-left-x) top, right var(--jp-branch-right-x) top, center, center !important;
+  background-size: auto 46px, auto 46px, 100% 100%, cover !important;
+  background-attachment: scroll, scroll, scroll, fixed !important;
+  border-bottom: 1px solid var(--jp-border) !important;
+  box-shadow: none !important;
+}
+
+/* Bookmarks toolbar (shown on the New Tab page) */
+#PersonalToolbar {
+  background: rgba(11, 10, 26, 0.88) !important;
+  color: var(--jp-text) !important;
+  border-bottom: 1px solid var(--jp-border) !important;
+}
+
+/* --------------------------------------------------------------------------
+   3. Address bar
+   -------------------------------------------------------------------------- */
+#urlbar-background {
+  background: var(--jp-bg-field) !important;
+  border: 1px solid var(--jp-border) !important;
+  border-radius: 12px !important;
+  box-shadow: none !important;
+}
+
+#urlbar:hover > #urlbar-background {
+  border-color: rgba(255, 143, 184, 0.35) !important;
+}
+
+#urlbar[focused] > #urlbar-background,
+#urlbar[open] > #urlbar-background {
+  border-color: var(--jp-sakura) !important;
+  box-shadow: 0 0 0 2px var(--jp-sakura-soft) !important;
+}
+
+#urlbar-input,
+#urlbar .urlbar-input {
+  color: var(--jp-text) !important;
+}
+
+#urlbar-input::placeholder {
+  color: var(--jp-text-dim) !important;
+  opacity: 1 !important;
+}
+
+/* Bookmark star in sakura pink when the page is bookmarked */
+#star-button[starred] {
+  fill: var(--jp-sakura) !important;
+  color: var(--jp-sakura) !important;
+}
+
+/* --------------------------------------------------------------------------
+   4. Buttons: clean icons, no stray outlines. Mouse clicks never leave a
+      ring; keyboard focus keeps one so the UI stays accessible.
+   -------------------------------------------------------------------------- */
+#nav-bar toolbarbutton,
+#nav-bar .toolbarbutton-1 {
+  outline: none !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+#nav-bar toolbarbutton:focus-visible,
+#nav-bar .toolbarbutton-1:focus-visible {
+  outline: 1px solid var(--jp-sakura) !important;
+  outline-offset: -2px !important;
+  border-radius: 8px !important;
+}
+
+#nav-bar .toolbarbutton-icon {
+  opacity: 0.92;
+}
+
+#nav-bar toolbarbutton:disabled .toolbarbutton-icon,
+#nav-bar toolbarbutton[disabled="true"] .toolbarbutton-icon {
+  opacity: 0.4;
+}
+
+/* --------------------------------------------------------------------------
+   5. Left sidebar: icon rail and vertical tabs (native Firefox feature).
+
+   Diagnosis on Firefox 158: the rail is the <sidebar-main> element (it has
+   no usable #id on the outside), and its parent box paints the visible panel.
+   So the wallpaper is set on both, using ":has(> sidebar-main)" to reach the
+   parent without knowing its id. Both layers are identical and fixed to the
+   window, so they line up with each other and with the top bar. The picture
+   (wallpaper-panel.jpg) is already darkened and tinted inside the file, so
+   the browser does no blending while the panel opens and closes.
+   -------------------------------------------------------------------------- */
+sidebar-main,
+:has(> sidebar-main) {
+  background-color: #0b0a1a !important;
+  background-image:
+    url("images/petals.svg"),
+    url("images/wallpaper-panel.jpg") !important;
+  background-repeat: no-repeat, no-repeat !important;
+  background-attachment: scroll, fixed !important;
+  color: var(--jp-text) !important;
+
+  /* ANTI-JITTER: the picture size and position are calculated from the
+     WINDOW (vw / vh), not from the panel box. Before, "cover" re-scaled the
+     picture on every frame while the panel width changed, which looked like
+     shaking. Now the picture never changes; the panel only uncovers or hides
+     a part of it, like a curtain. 1.7768 = width / height of the image. */
+  --jp-wall-w: max(100vw, calc(100vh * 1.7768));
+  background-size: 240px auto, var(--jp-wall-w) auto !important;
+  background-position:
+    left bottom,
+    calc((100vw - var(--jp-wall-w)) / 2) 0 !important;
+}
+
+/* SMOOTH OPEN / CLOSE: animate the panel width. If Firefox sets the width
+   itself without a CSS transition this still helps; tune time and curve here. */
+sidebar-main,
+:has(> sidebar-main) {
+  transition:
+    width 0.28s cubic-bezier(0.4, 0, 0.2, 1),
+    min-width 0.28s cubic-bezier(0.4, 0, 0.2, 1),
+    max-width 0.28s cubic-bezier(0.4, 0, 0.2, 1) !important;
+  will-change: width;
+}
+
+:has(> sidebar-main) {
+  border-inline-end: 1px solid var(--jp-border) !important;
+  box-shadow: none !important;
+}
+
+/* Firefox colours inside the rail come from these variables; making them
+   transparent lets the wallpaper show through. */
+sidebar-main {
+  --sidebar-background-color: transparent !important;
+  --toolbar-bgcolor: transparent !important;
+  --toolbox-bgcolor: transparent !important;
+  --toolbox-bgcolor-inactive: transparent !important;
+}
+
+#vertical-tabs {
+  background: transparent !important;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(139, 108, 255, 0.55) transparent;
+}
+
+#sidebar-splitter {
+  width: 0 !important;
+  border: 0 !important;
+}
+
+/* Panel opened from the rail (History, Bookmarks, extensions) */
+#sidebar-box,
+#sidebar {
+  background-color: var(--jp-bg-solid) !important;
+  color: var(--jp-text) !important;
+  box-shadow: none !important;
+}
+
+/* --------------------------------------------------------------------------
+   6. Vertical tabs: rounded, readable, sakura-tinted active tab
+   -------------------------------------------------------------------------- */
+#tabbrowser-tabs[orient="vertical"] .tabbrowser-tab {
+  margin-block: 1px !important;
+}
+
+#tabbrowser-tabs[orient="vertical"] .tab-background {
+  border-radius: var(--jp-radius) !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  border: 1px solid transparent !important;
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+
+#tabbrowser-tabs[orient="vertical"] .tabbrowser-tab:hover:not([selected]) .tab-background {
+  background: rgba(255, 255, 255, 0.07) !important;
+}
+
+#tabbrowser-tabs[orient="vertical"] .tabbrowser-tab[selected] .tab-background,
+#tabbrowser-tabs[orient="vertical"] .tab-background[selected] {
+  background: linear-gradient(90deg, rgba(139, 108, 255, 0.34), rgba(255, 143, 184, 0.24)) !important;
+  border-color: rgba(255, 143, 184, 0.38) !important;
+}
+
+#tabbrowser-tabs[orient="vertical"] .tab-label {
+  color: var(--jp-text) !important;
+}
+
+#tabbrowser-tabs[orient="vertical"] .tabbrowser-tab[selected] .tab-label {
+  color: #ffffff !important;
+}
+
+#tabbrowser-tabs[orient="vertical"] .tab-close-button {
+  border-radius: 6px !important;
+  fill: var(--jp-text) !important;
+}
+
+#tabbrowser-tabs[orient="vertical"] .tab-close-button:hover {
+  background: var(--jp-sakura-strong) !important;
+}
+
+#tabbrowser-tabs[orient="vertical"] .tab-icon-image {
+  border-radius: 4px;
+}
+
+#tabbrowser-tabs[orient="vertical"] .tabbrowser-tab[pinned] .tab-background {
+  background: rgba(255, 255, 255, 0.05) !important;
+}
+
+/* --------------------------------------------------------------------------
+   7. Context menus and popups: same dark surface
+   -------------------------------------------------------------------------- */
+menupopup,
+panel {
+  --panel-background: #15112b !important;
+  --panel-color: var(--jp-text) !important;
+  --panel-border-color: var(--jp-border) !important;
+}
+
+menupopup > menuitem:hover,
+menupopup > menu:hover {
+  background-color: var(--jp-sakura-soft) !important;
+}
