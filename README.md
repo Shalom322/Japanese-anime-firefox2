@@ -140,19 +140,6 @@ japanese-anime-firefox/
 
 `install.bat -Uninstall` видаляє файли теми та блок у `user.js`. Значення, які Firefox уже зберіг у `prefs.js`, скиньте в `about:config` (правою кнопкою → Reset).
 
-## Публікація на GitHub
-
-```bash
-cd japanese-anime-firefox
-git init
-git add .
-git commit -m "Initial commit: Japanese Anime Firefox theme"
-git branch -M main
-git remote add origin https://github.com/<ваш-логін>/japanese-anime-firefox.git
-git push -u origin main
-```
-
-Спочатку створіть порожній репозиторій на github.com (**New repository**, без README). У `LICENSE` замініть `<YOUR NAME>` на своє ім'я. Файл `CREDITS.md` уже містить примітку про походження шпалер.
 
 ## Перенесення на інший комп'ютер
 
